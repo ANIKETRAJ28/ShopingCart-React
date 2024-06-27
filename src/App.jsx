@@ -1,10 +1,11 @@
 import './App.css'
+import NavBar from './components/NavBar/NavBar'
 
 function App() {
 
   return (
     <>
-    Ecommerce App   
+    <NavBar color="light" light={true} expand="md" container="md" fixed="top"/>
     </>
   )
 }
