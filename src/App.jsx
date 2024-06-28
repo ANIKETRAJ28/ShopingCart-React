@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="app-wrapper">
-    <NavBar color="light" light={true} expand="md" container="md" fixed="top"/>
+    <NavBar color="light" light={true} expand="md" container="md"/>
     <MainRoutes/>
     </div>
   )

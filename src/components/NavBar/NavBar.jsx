@@ -15,6 +15,7 @@ import {
 
 // css imports
 import "./NavBar.css";
+import { Link } from 'react-router-dom';
 
 
 function NavBar(props) {
@@ -25,7 +26,9 @@ function NavBar(props) {
   return (
     <div>
       <Navbar {...props}>
-        <NavbarBrand id='title' href="/">ShopCart</NavbarBrand>
+        <NavbarBrand id='title'>
+          <Link to="/">ShopCart</Link>
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ms-auto" navbar>
