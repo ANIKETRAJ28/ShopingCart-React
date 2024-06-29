@@ -4,7 +4,7 @@ import "./CategoryItem.css";
 
 function CategoryItem({ itemName }) {
     return (
-        <Link to="/products" className="products">
+        <Link to={`products/category/${itemName}`} className="products">
             <div className="category-item d-flex align-items-center justify-content-center text-white">{itemName}</div>
         </Link>
     )

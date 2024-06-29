@@ -10,7 +10,7 @@ function MainRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="products" element={<ProductList/>}/>
+            <Route path="products/category/:id" element={<ProductList/>}/>
             <Route path="products/:id" element={<ProductDetails/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>

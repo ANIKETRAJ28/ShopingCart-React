@@ -5,7 +5,7 @@ import "./ProductBox.css";
 function ProductBox({productImg, productPrice, productDesc}) {
     return (
         <div className="product-list-box" id="productList">
-            <Link to="/products/1" className="product-item text-decoration-none d-inline-block">
+            <Link to="/products/1" className="product-item text-decoration-none">
                 <div className="product-img">
                     <img src={productImg}/>
                 </div>
