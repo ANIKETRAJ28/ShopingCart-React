@@ -40,7 +40,9 @@ function NavBar(props) {
                 <DropdownItem>Cart</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Logout</DropdownItem>
+                <DropdownItem>
+                  <Link to="/login" className='login'>Logout</Link>
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavbarText>User</NavbarText>
