@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./LoginSignUp.css";
 import Auth from "./Auth";
+import axios from "axios";
+import { userSignUp } from "../../apis/fakeStoreApis";
 
 function Login() {
+    const navigate = useNavigate();
     return (
         <div className="container">
             <div className="row">
@@ -12,7 +15,23 @@ function Login() {
             </div>
             <div className="login-wrapper" id="loginForm">
                 <h4 className="text-center">SignUp</h4>
-                <Auth/>
+                <Auth
+                    onSubmit = {async (args) => {
+                        try {
+                            const response = await axios.post(userSignUp(), {
+                                email: args.userEmail,
+                                password: args.userPassword,
+                                username: args.userName
+                            });
+                            console.log(response);
+                            navigate('/login');
+                            return true;
+                        } catch (error) {
+                            console.log(error);
+                            return false;
+                        }
+                    }}
+                />
                 <Link className="login-signup" to="/login"><div className="signup-btn text-center" id="showSignupBtn">Have an Account? Login In Here</div></Link>
                 
             </div>

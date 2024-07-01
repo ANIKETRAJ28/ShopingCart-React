@@ -11,6 +11,10 @@ export function getProduct(id) {
     return `${import.meta.env.VITE_FAKE_STORE_URL}/products/${id}`;
 }
 
-export function userLogin() {
+export function userSignUp() {
     return `${import.meta.env.VITE_FAKE_STORE_URL}/users`;
+}
+
+export function userLogin() {
+    return `${import.meta.env.VITE_FAKE_STORE_URL}/auth/login`;
 }

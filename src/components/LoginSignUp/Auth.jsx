@@ -17,9 +17,9 @@ function Auth({ onSubmit }) {
                 <input type="password" className="form-control" placeholder="Password" id="loginPassword" value={formDetails.userPassword} onChange={(e) => setFormDetails({...formDetails, userPassword: e.target.value})}/>
             </div>
             <div className="input-group">
-                <button onClick={() => {
-                    onSubmit(formDetails);
-                    setFormDetails({...formDetails, userName: '', userPassword: '', userEmail: '', isLoading: true})
+                <button onClick={async () => {
+                    const shouldLoad = await onSubmit(formDetails);
+                    setFormDetails({...formDetails, userName: '', userPassword: '', userEmail: '', isLoading: shouldLoad});
                 }} className="form-control btn btn-primary">
                     {(formDetails.isLoading) ? <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : "Submit"}
                 </button>

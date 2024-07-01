@@ -11,6 +11,7 @@ import {
   DropdownItem,
   NavbarText,
 } from 'reactstrap';
+import { useCookies } from "react-cookie";
 
 
 // css imports
@@ -19,8 +20,9 @@ import { Link } from 'react-router-dom';
 
 
 function NavBar(props) {
-  const [isOpen, setIsOpen] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [token, setToken, removeToken] = useCookies(['jwt-token']);
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -41,7 +43,7 @@ function NavBar(props) {
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  <Link to="/login" className='login'>Logout</Link>
+                  {Object.keys(token).length != 0 ? <Link onClick={() => removeToken('jwt-token')} to="/login" className='login'>Logout</Link> : <Link to="/signup" className='login'>Sign Up</Link>}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
