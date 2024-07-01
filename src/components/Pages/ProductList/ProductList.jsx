@@ -1,6 +1,6 @@
 import "./ProductList.css";
 import ProductBox from "../ProductBox/ProductBox";
-import FilterProduct from "../../FilterProduct/FileterProduct";
+import FilterProduct from "../../FilterProduct/FilterProduct";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCategory } from "../../../apis/fakeStoreApis";
@@ -10,16 +10,24 @@ function ProductList() {
 
     const {id} = useParams();
     const [items, setItems] = useState(null);
+    const [clearProd, setClearProd] = useState(false);
 
     async function getItems() {
         const response = await axios.get(getCategory(id));
-        console.log(response);
         setItems(response.data);
+    }
+
+    function filterSearchProd(prod) {
+        prod && setItems(items.filter((item) => item.title == prod));
+    }
+
+    function clearSearchProd() {
+        setClearProd(!clearProd);
     }
 
     useEffect(() => {
         getItems();
-    }, [])
+    }, [id, clearProd])
 
     return (
         <div className="container">
@@ -28,13 +36,12 @@ function ProductList() {
                 <h2 className="product-list-title text-center">All Products</h2>
 
                 <div className="product-list-wrapper d-flex flex-row">
-                    <FilterProduct/>
+                    <FilterProduct filterSearchProd={filterSearchProd} clearSearchProd={clearSearchProd}/>
                     <div className="product-list">
                         {
-                            items && items.map((item) => <ProductBox key={item.id} productImg={item.image} productPrice={item.price} productDesc={item.title}/>)
+                            items && items.map((item) => <ProductBox key={item.id} productImg={item.image} productPrice={item.price} productName={item.title} productId={item.id}/>)
                         }
                     </div>
-                    {/* <ProductBox productImg="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg" productPrice="10000" productDesc="Some product"/> */}
                 </div>
 
 

@@ -1,22 +1,12 @@
 import axios from "axios";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import "./Home.css";
-import { useEffect, useState } from "react";
-import { getAllCategories } from "../../apis/fakeStoreApis";
+import useCategory from "../../hooks/useCategory";
 
 function Home() {
 
-    const [category, setCategory] = useState([]);
-
-    async function downloadCategory() {
-        const response = await axios.get(getAllCategories());
-        setCategory(response.data);
-    };
-
-    useEffect(() => {
-        downloadCategory();
-    }, [])
-
+    const [category] = useCategory();
+    
     return (
         <div className="container welcome-wrapper">
             <div className="row">

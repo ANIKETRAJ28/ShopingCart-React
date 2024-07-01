@@ -1,23 +1,39 @@
+import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
+import axios from "axios";
+import { getProduct } from "../../../apis/fakeStoreApis";
+import { useEffect, useState } from "react";
 
 function ProductDetails() {
+
+    const {id} = useParams();
+
+    const [prod, setProd] = useState(null);
+
+    async function productDetail() {
+        const response = await axios.get(getProduct(id));
+        setProd(response.data);
+    }
+
+    useEffect(() => {
+        productDetail();
+    }, [])
+
     return (
-        <div className="container">
+        prod && <div className="container">
             <div className="row">
                 <div className="product-details-wrapper d-flex justify-content-between align-items-start flex-row">
                     <div className="product-img d-flex">
-                        <img src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3BmLXMxMDgtcG0tNDExMy1tb2NrdXAuanBn.jpg" id="product-img"/>
+                        <img src={prod.image} id="product-img"/>
                     </div>
 
                     <div className="product-details-box d-flex flex-column">
                         <div id="productDetails">
-                            <div className="product-name" id="product-name">Lorem ipsum dolor sit amet.</div>
-                            <div className="product-price fw-bold" id="product-price">2542</div>
+                            <div className="product-name" id="product-name">{prod.title}</div>
+                            <div className="product-price fw-bold" id="product-price">{prod.price}</div>
                             <div className="product-description">
                                 <div className="product-description-title fw-bold">Description</div>
-                                <div className="product-description-data" id="product-description-data">
-                                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam corporis repudiandae mollitia sequi dicta earum. Sed alias dolor earum eligendi!
-                                </div>
+                                <div className="product-description-data" id="product-description-data">{prod.description}</div>
                             </div>
                         </div>
 

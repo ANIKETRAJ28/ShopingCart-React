@@ -3,7 +3,7 @@ import Home from "../components/Home/Home";
 import Error from "../components/Error/Error";
 import ProductList from "../components/Pages/ProductList/ProductList";
 import ProductDetails from "../components/Pages/ProductDetails/ProductDetails";
-import Login from "../components/LoginSignUp/Logn";
+import Login from "../components/LoginSignUp/Login";
 import SignUp from "../components/LoginSignUp/SignUp";
 
 function MainRoutes() {

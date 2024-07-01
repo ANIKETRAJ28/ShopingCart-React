@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./LoginSignUp.css";
+import Auth from "./Auth";
 
 function Login() {
     return (
@@ -11,15 +12,7 @@ function Login() {
             </div>
             <div className="login-wrapper" id="loginForm">
                 <h4 className="text-center">SignUp</h4>
-                <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Username" id="loginUsername"/>
-                </div>
-                <div className="input-group">
-                    <input type="password" className="form-control" placeholder="Password" id="loginPassword"/>
-                </div>
-                <div className="input-group">
-                    <button className="form-control btn btn-primary">Sign Up As User</button>
-                </div>
+                <Auth/>
                 <Link className="login-signup" to="/login"><div className="signup-btn text-center" id="showSignupBtn">Have an Account? Login In Here</div></Link>
                 
             </div>
