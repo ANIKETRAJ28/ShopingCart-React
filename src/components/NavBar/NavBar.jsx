@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Collapse,
   Navbar,
@@ -12,11 +12,15 @@ import {
   NavbarText,
 } from 'reactstrap';
 import { useCookies } from "react-cookie";
+import { jwtDecode } from 'jwt-decode';
 
 
 // css imports
 import "./NavBar.css";
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
+import { CartContext } from '../../context/CartContext';
 
 
 function NavBar(props) {
@@ -24,6 +28,17 @@ function NavBar(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [token, setToken, removeToken] = useCookies(['jwt-token']);
   const toggle = () => setIsOpen(!isOpen);
+  const { user, setUser } = useContext(UserContext);
+  const { cart, setCart } = useContext(CartContext);
+
+  async function getUserCart(userId) {
+    const cart = await axios.get(`http://localhost:8765/carts/user/${userId}`);
+    setCart({...cart, products: cart.data[0].products});
+  }
+
+  useEffect(() => {
+    user && getUserCart(user.id);
+  }, [token])
 
   return (
     <div>
@@ -39,15 +54,24 @@ function NavBar(props) {
                 Options
               </DropdownToggle >
               <DropdownMenu right>
-                <DropdownItem>Cart</DropdownItem>
+                <DropdownItem>Cart {cart.products.length != 0 && cart.products.length}</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  {Object.keys(token).length != 0 ? <Link onClick={() => removeToken('jwt-token')} to="/login" className='login'>Logout</Link> : <Link to="/signup" className='login'>Sign Up</Link>}
+                  {Object.keys(token).length != 0 ? <Link onClick={() => {
+                      removeToken('jwt-token', {httpOnly: true});
+                      axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`, {withCredentials: true})
+                      setCart({...cart, products: []});
+                      setUser({});
+                    }
+                    } to="/login" className='login'>
+                      Logout
+                    </Link> : <Link to="/signup" className='login'>Sign Up</Link>
+                  }
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <NavbarText>User</NavbarText>
+            {user && <NavbarText>{user.username}</NavbarText>}
           </Nav>
         </Collapse>
       </Navbar>
