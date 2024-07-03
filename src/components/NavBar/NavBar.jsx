@@ -12,7 +12,6 @@ import {
   NavbarText,
 } from 'reactstrap';
 import { useCookies } from "react-cookie";
-import { jwtDecode } from 'jwt-decode';
 
 
 // css imports
@@ -21,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 import { CartContext } from '../../context/CartContext';
+import { getCartByUser } from '../../apis/fakeStoreApis';
 
 
 function NavBar(props) {
@@ -32,8 +32,8 @@ function NavBar(props) {
   const { cart, setCart } = useContext(CartContext);
 
   async function getUserCart(userId) {
-    const cart = await axios.get(`http://localhost:8765/carts/user/${userId}`);
-    setCart(cart.data[0].products);
+    const cart = await axios.get(getCartByUser(userId));
+    setCart(cart.data);
   }
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function NavBar(props) {
                 Options
               </DropdownToggle >
               <DropdownMenu right>
-                {user && <DropdownItem><Link to={`/cart/${user.id}`}>Cart {cart && cart.length && `(${cart.length})`}</Link></DropdownItem>}
+                {user && <DropdownItem><Link to={`/cart/${user.id}`}>Cart {cart.length != 0 && `(${cart.length})`}</Link></DropdownItem>}
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>

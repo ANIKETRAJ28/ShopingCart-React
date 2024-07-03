@@ -1,15 +1,36 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import OrderDetailsProduct from "../../OrderDetailsProduct/OrderDetailsProduct";
 import "./Cart.css";
 import { CartContext } from "../../../context/CartContext";
+import axios from "axios";
+import { getProduct } from "../../../apis/fakeStoreApis";
 
 function Cart() {
 
     const { cart } = useContext(CartContext);
+    const [product, setProduct] = useState([]);
+
+    async function downloadProduct(cart) {
+        let newProducts = [];
+        let newProductMapping = {};
+        for(let prod in cart) {
+            const prodObj = cart[prod];
+            const itemObj = prodObj['products'];
+            for(let item in itemObj) {
+                const newProd = itemObj[item];
+                newProducts.push(newProd.productId);
+                newProductMapping[newProd.productId] = newProd.quantity;
+            }
+        }
+        let promiseProduct = newProducts.map(product => axios.get(getProduct(product)));
+        promiseProduct = await axios.all(promiseProduct);
+        promiseProduct = promiseProduct.map(prod => ({...prod.data, quantity: newProductMapping[prod.data.id]}));
+        setProduct(promiseProduct);
+    }
 
     useEffect(() => {
-        console.log("cart is : ",cart);
-    }, [])
+        downloadProduct(cart);
+    }, [cart])
 
     return (
         <div className="container">
@@ -18,11 +39,7 @@ function Cart() {
                 <div className="cart-wrapper d-flex flex-row">
                     <div className="order-details d-flex flex-column" id="orderDetails">
                         <div className="order-details-title fw-bold">Order Details</div>
-
-                        <OrderDetailsProduct/>
-                        <hr />
-                        <OrderDetailsProduct/>
-
+                        {product && product.map((prod) => <OrderDetailsProduct key={prod.id} image={prod.image} description={prod.title} price={prod.price} quantity={prod.quantity}/>)}
                     </div>
 
                     <div className="price-details d-flex flex-column" id="priceDetails">

@@ -19,6 +19,6 @@ export function userLogin() {
     return `${import.meta.env.VITE_FAKE_STORE_URL}/auth/login`;
 }
 
-export function getUserCart(id) {
+export function getCartByUser(id) {
     return `${import.meta.env.VITE_FAKE_STORE_URL}/carts/user/${id}`;
 }

@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     try {
-      axios.get(`http://localhost:8765/accesstoken`, {withCredentials: true})
+      axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/accesstoken`, {withCredentials: true})
       .then((res) => {
         if(!res.data.token) throw("cannot read jwt-token");
         setToken('jwt-token', res.data.token, {httpOnly: true});
