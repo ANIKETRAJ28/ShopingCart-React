@@ -21,6 +21,8 @@ import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 import { CartContext } from '../../context/CartContext';
 import { getCartByUser } from '../../apis/fakeStoreApis';
+import findCart from '../../helper/findCart';
+import { SetCartContext } from '../../context/SetCartContext';
 
 
 function NavBar(props) {
@@ -30,10 +32,10 @@ function NavBar(props) {
   const toggle = () => setIsOpen(!isOpen);
   const { user, setUser } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
+  const {cartCounter, setCartCounter} = useContext(SetCartContext);
 
   async function getUserCart(userId) {
-    const cart = await axios.get(getCartByUser(userId));
-    setCart(cart.data);
+    findCart(userId, setCartCounter, setCart)
   }
 
   useEffect(() => {
@@ -54,7 +56,7 @@ function NavBar(props) {
                 Options
               </DropdownToggle >
               <DropdownMenu right>
-                {user && <DropdownItem><Link to={`/cart/${user.id}`}>Cart {cart.length != 0 && `(${cart.length})`}</Link></DropdownItem>}
+                {user && <DropdownItem><Link to={`/cart/${user.id}`}>Cart {cart.length != 0 && `(${cartCounter})`}</Link></DropdownItem>}
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
@@ -62,6 +64,7 @@ function NavBar(props) {
                         removeToken('jwt-token', {httpOnly: true});
                         axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`, {withCredentials: true})
                         setCart({});
+                        setCartCounter(0);
                         setUser(null);
                       }
                     } to="/login" className='login'>

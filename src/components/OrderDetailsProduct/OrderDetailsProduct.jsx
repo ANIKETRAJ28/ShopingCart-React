@@ -1,6 +1,6 @@
 function OrderDetailsProduct({image, description, price, quantity}) {
 
-    const totalQuantity = [1,2,3,4,5];
+    const totalQuantity = [1,2,3,4,5,6,7,8,9,10];
     return (
         <>
             <div className="order-details-product d-flex flex-row">

@@ -7,12 +7,14 @@ import { CartContext } from './context/CartContext'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import { jwtDecode } from 'jwt-decode'
+import { SetCartContext } from './context/SetCartContext'
 
 function App() {
 
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState({});
   const [ token, setToken ] = useCookies(['jwt-token']);
+  const [cartCounter, setCartCounter] = useState(0);
 
   useEffect(() => {
     try {
@@ -31,10 +33,12 @@ function App() {
   return (
     <div className="app-wrapper">
       <UserContext.Provider value={{user, setUser}}>
-      <CartContext.Provider value={{cart, setCart}}>
-        <NavBar color="light" light={true} expand="md" container="md"/>
-        <MainRoutes/>
-      </CartContext.Provider>
+        <CartContext.Provider value={{cart, setCart}}>
+          <SetCartContext.Provider value={{cartCounter, setCartCounter}}>
+            <NavBar color="light" light={true} expand="md" container="md"/>
+            <MainRoutes/>
+          </SetCartContext.Provider>
+        </CartContext.Provider>
       </UserContext.Provider>
     </div>
   )
