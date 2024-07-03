@@ -11,16 +11,21 @@ import { jwtDecode } from 'jwt-decode'
 function App() {
 
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState({products: []});
+  const [cart, setCart] = useState({});
   const [ token, setToken ] = useCookies(['jwt-token']);
 
   useEffect(() => {
-    axios.get(`http://localhost:8765/accesstoken`, {withCredentials: true})
-    .then((res) => {
-      setToken('jwt-token', res.data.token, {httpOnly: true});
-      const jwtToken = jwtDecode(res.data.token);
-      setUser({username: jwtToken.user, id: jwtToken.id});
-    });
+    try {
+      axios.get(`http://localhost:8765/accesstoken`, {withCredentials: true})
+      .then((res) => {
+        if(!res.data.token) throw("cannot read jwt-token");
+        setToken('jwt-token', res.data.token, {httpOnly: true});
+        const jwtToken = jwtDecode(res.data.token);
+        setUser({username: jwtToken.user, id: jwtToken.id});
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }, [])
 
   return (

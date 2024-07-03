@@ -33,7 +33,7 @@ function NavBar(props) {
 
   async function getUserCart(userId) {
     const cart = await axios.get(`http://localhost:8765/carts/user/${userId}`);
-    setCart({...cart, products: cart.data[0].products});
+    setCart(cart.data[0].products);
   }
 
   useEffect(() => {
@@ -54,16 +54,16 @@ function NavBar(props) {
                 Options
               </DropdownToggle >
               <DropdownMenu right>
-                <DropdownItem>Cart {cart.products.length != 0 && cart.products.length}</DropdownItem>
+                {user && <DropdownItem><Link to={`/cart/${user.id}`}>Cart {cart && cart.length && `(${cart.length})`}</Link></DropdownItem>}
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
                   {Object.keys(token).length != 0 ? <Link onClick={() => {
-                      removeToken('jwt-token', {httpOnly: true});
-                      axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`, {withCredentials: true})
-                      setCart({...cart, products: []});
-                      setUser({});
-                    }
+                        removeToken('jwt-token', {httpOnly: true});
+                        axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`, {withCredentials: true})
+                        setCart({});
+                        setUser(null);
+                      }
                     } to="/login" className='login'>
                       Logout
                     </Link> : <Link to="/signup" className='login'>Sign Up</Link>

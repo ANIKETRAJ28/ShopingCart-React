@@ -1,4 +1,3 @@
-import axios from "axios";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import "./Home.css";
 import useCategory from "../../hooks/useCategory";
