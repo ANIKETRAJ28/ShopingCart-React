@@ -24,5 +24,9 @@ export function getCartByUser(id) {
 }
 
 export function addProductToCart() {
-    return `${import.meta.env.VITE_FAKE_STORE_URL}/carts/`;
+    return `${import.meta.env.VITE_FAKE_STORE_URL}/carts`;
+}
+
+export function deleteProduct() {
+    return `${import.meta.env.VITE_FAKE_STORE_URL}/carts/updateProduct`
 }

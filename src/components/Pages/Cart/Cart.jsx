@@ -3,12 +3,15 @@ import OrderDetailsProduct from "../../OrderDetailsProduct/OrderDetailsProduct";
 import "./Cart.css";
 import { CartContext } from "../../../context/CartContext";
 import axios from "axios";
-import { getProduct } from "../../../apis/fakeStoreApis";
+import { deleteProduct, getProduct } from "../../../apis/fakeStoreApis";
+import findCart from "../../../helper/findCart";
+import { SetCartContext } from "../../../context/SetCartContext";
 
 function Cart() {
 
-    const { cart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
     const [product, setProduct] = useState([]);
+    const { setCartCounter } = useContext(SetCartContext);
 
     async function downloadProduct(cart) {
         let newProducts = [];
@@ -28,6 +31,15 @@ function Cart() {
         setProduct(promiseProduct);
     }
 
+    async function updateProd(user, prod, quant) {
+        await axios.put(deleteProduct(), {
+            userId: user,
+            productId: prod,
+            quantity: quant
+        });
+        findCart(user, setCartCounter, setCart)
+    }
+
     useEffect(() => {
         downloadProduct(cart);
     }, [cart])
@@ -39,7 +51,7 @@ function Cart() {
                 <div className="cart-wrapper d-flex flex-row">
                     <div className="order-details d-flex flex-column" id="orderDetails">
                         <div className="order-details-title fw-bold">Order Details</div>
-                        {product && product.map((prod) => <OrderDetailsProduct key={prod.id} image={prod.image} description={prod.title} price={prod.price} quantity={prod.quantity}/>)}
+                        {product && product.map((prod) => <OrderDetailsProduct key={prod.id} image={prod.image} description={prod.title} price={prod.price} quantity={prod.quantity} productId={prod.id} updateProd={updateProd}/>)}
                     </div>
 
                     <div className="price-details d-flex flex-column" id="priceDetails">

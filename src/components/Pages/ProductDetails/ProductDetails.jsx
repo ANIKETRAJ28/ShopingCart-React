@@ -28,8 +28,13 @@ function ProductDetails() {
 
     async function addToCart() {
         if(!user) return;
-        const response = await axios.put(addProductToCart(), {userId: user.id, productId: id});
+        await axios.put(addProductToCart(), {userId: user.id, productId: id});
         findCart(user.id, setCartCounter, setCart);
+        navigate(`/cart/${user.id}`);
+    }
+
+    async function navigateToCart() {
+        if(!user) return;
         navigate(`/cart/${user.id}`);
     }
 
@@ -52,7 +57,7 @@ function ProductDetails() {
                         </div>
 
                         <div className="product-details-action btn btn-primary text-decoration-non" onClick={addToCart}>Add to cart</div>
-                        <a id="goToCartBtn" className="product-details-action btn btn-warning text-decoration-none" onClick={() => navigate(`/cart/${user.id}`)}>Go to cart</a>
+                        <a id="goToCartBtn" className="product-details-action btn btn-warning text-decoration-none" onClick={navigateToCart}>Go to cart</a>
                     </div>
                 </div>
             </div>
