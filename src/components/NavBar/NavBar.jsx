@@ -62,7 +62,7 @@ function NavBar(props) {
                 <DropdownItem>
                   {Object.keys(token).length != 0 ? <Link onClick={() => {
                         removeToken('jwt-token', {httpOnly: true});
-                        axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`, {withCredentials: true})
+                        axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`)
                         setCart({});
                         setCartCounter(0);
                         setUser(null);

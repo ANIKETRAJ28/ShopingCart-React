@@ -8,7 +8,7 @@ function useCategory() {
     async function downloadCategory() {
         const response = await axios.get(getAllCategories());
         setCategory(response.data);
-    };
+    }
 
     useEffect(() => {
         downloadCategory();

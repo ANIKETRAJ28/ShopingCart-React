@@ -29,7 +29,7 @@ function Login() {
                             email: args.userEmail,
                             password: args.userPassword,
                             username: args.userName
-                        }, {withCredentials: true});
+                        });
                         setToken('jwt-token', response.data.token, {httpOnly: true});
                         const jwtToken = jwtDecode(response.data.token);
                         setUser({username: jwtToken.user, id: jwtToken.id});
